@@ -4,8 +4,8 @@ import {
   BsFacebook,
   BsTwitter,
   BsGithub,
-  BsMedium,
   BsInstagram,
+  BsLinkedin,
 } from "react-icons/bs";
 export default function FooterCom() {
   return (
@@ -88,8 +88,8 @@ export default function FooterCom() {
               icon={BsGithub}
             />
             <Footer.Icon
-              href="https://medium.com/@adityatile45"
-              icon={BsMedium}
+              href="https://www.linkedin.com/in/connectadityatile/"
+              icon={BsLinkedin}
             />
           </div>
         </div>
