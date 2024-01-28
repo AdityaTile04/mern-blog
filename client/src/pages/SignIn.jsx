@@ -99,7 +99,7 @@ export default function SignIn() {
           </div>
           {errorMessage && (
             <Alert className="mt-5" color="failure">
-              {errorMessage}
+              {JSON.stringify(errorMessage)}
             </Alert>
           )}
         </div>
