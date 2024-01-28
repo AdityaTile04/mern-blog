@@ -46,7 +46,7 @@ export default function Header() {
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" image={currentUser.profilePicture} rounded />
+              <Avatar alt="user" img={currentUser.profilePicture} rounded />
             }
           >
             <Dropdown.Header>
