@@ -142,7 +142,7 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-        <ReactQuill
+        <ReactQuill cl
           theme="snow"
           placeholder="Write something..."
           className="h-72 mb-12"
