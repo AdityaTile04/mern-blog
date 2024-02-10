@@ -1,6 +1,6 @@
-import { Alert, Button, Modal, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, ModalBody, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -19,8 +19,10 @@ import {
   deleteUserFailure,
   signoutSuccess,
 } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
+
 export default function DashProfile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
@@ -37,7 +39,7 @@ export default function DashProfile() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImageFile(e.target.files[0]);
+      setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
     }
   };
@@ -48,22 +50,33 @@ export default function DashProfile() {
   }, [imageFile]);
 
   const uploadImage = async () => {
+    // service firebase.storage {
+    //   match /b/{bucket}/o {
+    //     match /{allPaths=**} {
+    //       allow read;
+    //       allow write: if
+    //       request.resource.size < 2 * 1024 * 1024 &&
+    //       request.resource.contentType.matches('image/.*')
+    //     }
+    //   }
+    // }
     setImageFileUploading(true);
     setImageFileUploadError(null);
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
-    const uploaTasks = uploadBytesResumable(storageRef, imageFile);
-    uploaTasks.on(
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+    uploadTask.on(
       "state_changed",
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
         setImageFileUploadProgress(progress.toFixed(0));
       },
       (error) => {
         setImageFileUploadError(
-          "Could not upload image (File must be less than 2 MB)"
+          "Could not upload image (File must be less than 2MB)"
         );
         setImageFileUploadProgress(null);
         setImageFile(null);
@@ -71,7 +84,7 @@ export default function DashProfile() {
         setImageFileUploading(false);
       },
       () => {
-        getDownloadURL(uploaTasks.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
           setImageFileUploading(false);
@@ -81,7 +94,7 @@ export default function DashProfile() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.id });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -138,7 +151,7 @@ export default function DashProfile() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch(`/api/user/signout`, {
+      const res = await fetch("/api/user/signout", {
         method: "POST",
       });
       const data = await res.json();
@@ -151,14 +164,13 @@ export default function DashProfile() {
       console.log(error.message);
     }
   };
-
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
-          accept="image/*  "
+          accept="image/*"
           onChange={handleImageChange}
           ref={filePickerRef}
           hidden
@@ -181,7 +193,7 @@ export default function DashProfile() {
                   left: 0,
                 },
                 path: {
-                  stroke: `{rgba(62, 152,199, ${
+                  stroke: `rgba(62, 152, 199, ${
                     imageFileUploadProgress / 100
                   })`,
                 },
@@ -204,21 +216,21 @@ export default function DashProfile() {
         <TextInput
           type="text"
           id="username"
-          placeholder="Username"
+          placeholder="username"
           defaultValue={currentUser.username}
           onChange={handleChange}
         />
         <TextInput
           type="email"
           id="email"
-          placeholder="Email"
+          placeholder="email"
           defaultValue={currentUser.email}
           onChange={handleChange}
         />
         <TextInput
           type="password"
           id="password"
-          placeholder="Password"
+          placeholder="password"
           onChange={handleChange}
         />
         <Button
@@ -243,10 +255,10 @@ export default function DashProfile() {
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
-          Delete Account{" "}
+          Delete Account
         </span>
         <span onClick={handleSignout} className="cursor-pointer">
-          Sign Out{" "}
+          Sign Out
         </span>
       </div>
       {updateUserSuccess && (

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
+import { set } from "mongoose";
 
 export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const [user, setUser] = useState({});
@@ -48,7 +49,6 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
       console.log(error.message);
     }
   };
-
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">
       <div className="flex-shrink-0 mr-3">
@@ -62,9 +62,6 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
         <div className="flex items-center mb-1">
           <span className="font-bold mr-1 text-xs truncate">
             {user ? `@${user.username}` : "anonymous user"}
-          </span>
-          <span className="text-gray-500 text-xs">
-            {moment(comment.createdAt).fromNow()}
           </span>
           <span className="text-gray-500 text-xs">
             {moment(comment.createdAt).fromNow()}

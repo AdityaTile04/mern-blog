@@ -1,6 +1,4 @@
-import { request } from "express";
 import Comment from "../models/comment.model.js";
-import { errorHandler } from "../utils/error.js";
 
 export const createComment = async (req, res, next) => {
   try {
@@ -68,6 +66,7 @@ export const editComment = async (req, res, next) => {
         errorHandler(403, "You are not allowed to edit this comment")
       );
     }
+
     const editedComment = await Comment.findByIdAndUpdate(
       req.params.commentId,
       {
@@ -89,11 +88,11 @@ export const deleteComment = async (req, res, next) => {
     }
     if (comment.userId !== req.user.id && !req.user.isAdmin) {
       return next(
-        errorHandler(403, "You are not allowed to delete thie comment")
+        errorHandler(403, "You are not allowed to delete this comment")
       );
     }
     await Comment.findByIdAndDelete(req.params.commentId);
-    res.status(200).json("Comment has been deleted ");
+    res.status(200).json("Comment has been deleted");
   } catch (error) {
     next(error);
   }
