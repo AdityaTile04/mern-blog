@@ -24,7 +24,7 @@ MERN Blog is a full-stack web application for creating and managing blog posts. 
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/your-username/mern-blog.git
+    git clone https://github.com/AdityaTile04/mern-blog.git
     
     ```
 
@@ -32,7 +32,7 @@ MERN Blog is a full-stack web application for creating and managing blog posts. 
 
     ```bash
     # Install server dependencies
-    cd server
+    cd api
     npm install
 
     # Install client dependencies
@@ -54,23 +54,10 @@ MERN Blog is a full-stack web application for creating and managing blog posts. 
 
     ```bash
     # Run the server (from the server directory)
-    cd server
-    npm start
+    cd api
+    npm run dev
 
     # Run the client (from the client directory)
     cd ../client
-    npm start
+    npm run dev
     ```
-
-5. **Open in Browser:**
-
-    Open [http://localhost:3000](http://localhost:3000) in your browser to access the MERN Blog application.
-
-## Contributing
-
-Contributions are welcome! Please follow the [Contribution Guidelines](CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
