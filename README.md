@@ -17,7 +17,7 @@ MERN Blog is a full-stack web application for creating and managing blog posts. 
 - **Node.js:** JavaScript runtime environment for server-side scripting.
 - **WebSocket:** For real-time communication between the server and clients.
 - **JWT (JSON Web Tokens):** Used for secure user authentication.
-- **CSS (with SCSS):** Styling the user interface.
+- **Tailwind CSS:** Styling the user interface.
 
 ## Getting Started
 
@@ -25,7 +25,7 @@ MERN Blog is a full-stack web application for creating and managing blog posts. 
 
     ```bash
     git clone https://github.com/your-username/mern-blog.git
-    cd mern-blog
+    
     ```
 
 2. **Install Dependencies:**
