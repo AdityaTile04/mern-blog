@@ -15,7 +15,6 @@ MERN Blog is a full-stack web application for creating and managing blog posts. 
 - **Express.js:** Backend framework for building the server and handling API requests.
 - **React.js:** Frontend library for building the user interface.
 - **Node.js:** JavaScript runtime environment for server-side scripting.
-- **WebSocket:** For real-time communication between the server and clients.
 - **JWT (JSON Web Tokens):** Used for secure user authentication.
 - **Tailwind CSS:** Styling the user interface.
 
