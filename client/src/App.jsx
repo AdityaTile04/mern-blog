@@ -37,7 +37,7 @@ export default function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/post/:postSlug" element={<PostPage />} />
       </Routes>
-      <Chatbot />
+      {/* <Chatbot /> */}
       <Footer />
     </BrowserRouter>
   );

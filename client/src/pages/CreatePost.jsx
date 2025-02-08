@@ -1,6 +1,7 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import ReactMde from "react-mde";
+import Showdown from "showdown";
+import "react-mde/lib/styles/css/react-mde-all.css";
 import {
   getDownloadURL,
   getStorage,
@@ -19,8 +20,16 @@ export default function CreatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("write");
 
   const navigate = useNavigate();
+
+  const converter = new Showdown.Converter({
+    tables: true,
+    simplifiedAutoLink: true,
+    strikethrough: true,
+    tasklists: true,
+  });
 
   const handleUpdloadImage = async () => {
     try {
@@ -58,6 +67,7 @@ export default function CreatePost() {
       console.log(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -82,6 +92,7 @@ export default function CreatePost() {
       setPublishError("Something went wrong");
     }
   };
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
@@ -142,14 +153,14 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-        <ReactQuill cl
-          theme="snow"
-          placeholder="Write something..."
-          className="h-72 mb-12"
-          required
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
+        <ReactMde
+          value={formData.content || ""}
+          onChange={(value) => setFormData({ ...formData, content: value })}
+          selectedTab={selectedTab}
+          onTabChange={setSelectedTab}
+          generateMarkdownPreview={(markdown) =>
+            Promise.resolve(converter.makeHtml(markdown))
+          }
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Publish
