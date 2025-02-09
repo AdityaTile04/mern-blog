@@ -1,7 +1,6 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import ReactMde from "react-mde";
-import Showdown from "showdown";
-import "react-mde/lib/styles/css/react-mde-all.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   getDownloadURL,
   getStorage,
@@ -20,18 +19,9 @@ export default function CreatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-  const [selectedTab, setSelectedTab] = useState("write");
-
   const navigate = useNavigate();
 
-  const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true,
-  });
-
-  const handleUpdloadImage = async () => {
+  const handleUploadImage = async () => {
     try {
       if (!file) {
         setImageUploadError("Please select an image");
@@ -83,7 +73,6 @@ export default function CreatePost() {
         setPublishError(data.message);
         return;
       }
-
       if (res.ok) {
         setPublishError(null);
         navigate(`/post/${data.slug}`);
@@ -91,6 +80,21 @@ export default function CreatePost() {
     } catch (error) {
       setPublishError("Something went wrong");
     }
+  };
+
+  const quillModules = {
+    toolbar: [
+      [{ font: [] }, { size: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ align: [] }],
+      ["blockquote", "code-block"],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
   };
 
   return (
@@ -130,7 +134,7 @@ export default function CreatePost() {
             gradientDuoTone="purpleToBlue"
             size="sm"
             outline
-            onClick={handleUpdloadImage}
+            onClick={handleUploadImage}
             disabled={imageUploadProgress}
           >
             {imageUploadProgress ? (
@@ -153,14 +157,13 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-        <ReactMde
-          value={formData.content || ""}
+        <ReactQuill
+          theme="snow"
+          placeholder="Write something..."
+          className="h-72 mb-12"
+          modules={quillModules}
+          required
           onChange={(value) => setFormData({ ...formData, content: value })}
-          selectedTab={selectedTab}
-          onTabChange={setSelectedTab}
-          generateMarkdownPreview={(markdown) =>
-            Promise.resolve(converter.makeHtml(markdown))
-          }
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Publish

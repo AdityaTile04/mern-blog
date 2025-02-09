@@ -110,6 +110,22 @@ export default function UpdatePost() {
       setPublishError("Something went wrong");
     }
   };
+
+  const quillModules = {
+    toolbar: [
+      [{ font: [] }, { size: [] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ align: [] }],
+      ["blockquote", "code-block"],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+  };
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Update post</h1>
@@ -177,6 +193,7 @@ export default function UpdatePost() {
           value={formData.content}
           placeholder="Write something..."
           className="h-72 mb-12"
+          modules={quillModules}
           required
           onChange={(value) => {
             setFormData({ ...formData, content: value });
