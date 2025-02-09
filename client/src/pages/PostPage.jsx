@@ -4,9 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
 import PostCard from "../components/PostCard";
-import Showdown from "showdown"; // ✅ Import Showdown
-
-const converter = new Showdown.Converter(); // ✅ Initialize converter
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -60,7 +57,6 @@ export default function PostPage() {
         <Spinner size="xl" />
       </div>
     );
-
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
       <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
@@ -85,12 +81,9 @@ export default function PostPage() {
           {post && (post.content.length / 1000).toFixed(0)} mins read
         </span>
       </div>
-      {/* ✅ Convert Markdown to HTML */}
       <div
         className="p-3 max-w-2xl mx-auto w-full post-content"
-        dangerouslySetInnerHTML={{
-          __html: post ? converter.makeHtml(post.content) : "",
-        }}
+        dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
